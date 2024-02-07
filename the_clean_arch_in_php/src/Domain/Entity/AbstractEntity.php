@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CleanArchitecture\Domain\Entity;
+namespace CleanPhp\Invoicer\Domain\Entity;
 
 abstract class AbstractEntity {
     protected $id;

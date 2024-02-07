@@ -1,0 +1,15 @@
+{
+    "name": "dozer111/the_clean_arch_in_php",
+    "autoload": {
+        "psr-4": {
+            "CleanPhp\\Invoicer\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "peridot-php/peridot": "^1.19",
+        "peridot-php/peridot-watcher-plugin": "^1.3"
+    }
+}
