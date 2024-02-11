@@ -9,5 +9,9 @@
 
 ---
 
+Приклади з книги: https://github.com/mrkrstphr/cleanphp-example
+
+---
+
 
 php -S localhost:1337 -t public

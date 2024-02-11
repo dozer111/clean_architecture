@@ -1,45 +1,60 @@
 <?php
 
+use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
+use Zend\Stdlib\Hydrator\ClassMethods;
+
 return [
     'router' => [
         'routes' => [
             'home' => [
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => [
-                    'route'    => '/',
+                    'route' => '/',
                     'defaults' => [
                         'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
+                        'action' => 'index',
                     ],
                 ],
             ],
             'customers' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route'    => '/customers',
+                    'route' => '/customers',
                     'defaults' => [
                         'controller' => 'Application\Controller\Customers',
-                        'action'     => 'index',
+                        'action' => 'index',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'create' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/new',
+                            'defaults' => [
+                                'action' => 'new',
+                            ],
+                        ]
                     ],
                 ],
             ],
             'orders' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route'    => '/orders',
+                    'route' => '/orders',
                     'defaults' => [
                         'controller' => 'Application\Controller\Orders',
-                        'action'     => 'index',
+                        'action' => 'index',
                     ],
                 ],
             ],
             'invoices' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route'    => '/invoices',
+                    'route' => '/invoices',
                     'defaults' => [
                         'controller' => 'Application\Controller\Invoices',
-                        'action'     => 'index',
+                        'action' => 'index',
                     ],
                 ],
             ],
@@ -58,9 +73,9 @@ return [
         'locale' => 'en_US',
         'translation_file_patterns' => [
             [
-                'type'     => 'gettext',
+                'type' => 'gettext',
                 'base_dir' => __DIR__ . '/../language',
-                'pattern'  => '%s.mo',
+                'pattern' => '%s.mo',
             ],
         ],
     ],
@@ -71,22 +86,29 @@ return [
         'factories' => [
             'Application\Controller\Customers' => function ($sm) {
                 return new \Application\Controller\CustomersController(
-                    $sm->getServiceLocator()->get('CustomerTable')
+                    $sm->getServiceLocator()->get('CustomerTable'),
+                    new CustomerInputFilter(),
+                    new ClassMethods()
                 );
             },
         ],
     ],
+    'view_helpers' => [
+        'invokables' => [
+            'validationErrors' => 'Application\View\Helper\ValidationErrors',
+        ]
+    ],
     'view_manager' => [
         'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
+        'display_exceptions' => true,
+        'doctype' => 'HTML5',
+        'not_found_template' => 'error/404',
+        'exception_template' => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'error/404' => __DIR__ . '/../view/error/404.phtml',
+            'error/index' => __DIR__ . '/../view/error/index.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
