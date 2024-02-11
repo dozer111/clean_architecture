@@ -1,67 +1,72 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
-namespace Application;
-
-use Zend\Router\Http\Literal;
-use Zend\Router\Http\Segment;
-use Zend\ServiceManager\Factory\InvokableFactory;
-
-
-$router = [
-    'routes' => [
-        'home' => [
-            'type' => 'Zend\Mvc\Router\Http\Literal',
-            'options' => [
-                'route' => '/',
-                'defaults' => [
-                    'controller' => 'Application\Controller\Index',
-                    'action' => 'index',
+return [
+    'router' => [
+        'routes' => [
+            'home' => [
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => [
+                    'route'    => '/',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'index',
+                    ],
                 ],
             ],
-        ],
-        'customers' => [
-            'type' => 'Segment',
-            'options' => [
-                'route' => '/customers',
-                'defaults' => [
-                    'controller' => 'Application\Controller\Customers',
-                    'action' => 'index',
+            'customers' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route'    => '/customers',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Customers',
+                        'action'     => 'index',
+                    ],
                 ],
             ],
-        ],
-        'orders' => [
-            'type' => 'Segment',
-            'options' => [
-                'route' => '/orders',
-                'defaults' => [
-                    'controller' => 'Application\Controller\Orders',
-                    'action' => 'index',
+            'orders' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route'    => '/orders',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Orders',
+                        'action'     => 'index',
+                    ],
                 ],
             ],
-        ],
-        'invoices' => [
-            'type' => 'Segment',
-            'options' => [
-                'route' => '/invoices',
-                'defaults' => [
-                    'controller' => 'Application\Controller\Invoices',
-                    'action' => 'index',
+            'invoices' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route'    => '/invoices',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Invoices',
+                        'action'     => 'index',
+                    ],
                 ],
             ],
         ],
     ],
-];
-
-return [
-    'router' => $router,
+    'service_manager' => [
+        'abstract_factories' => [
+            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+            'Zend\Log\LoggerAbstractServiceFactory',
+        ],
+        'aliases' => [
+            'translator' => 'MvcTranslator',
+        ],
+    ],
+    'translator' => [
+        'locale' => 'en_US',
+        'translation_file_patterns' => [
+            [
+                'type'     => 'gettext',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.mo',
+            ],
+        ],
+    ],
     'controllers' => [
-        'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+        'invokables' => [
+            'Application\Controller\Index' => 'Application\Controller\IndexController'
         ],
     ],
     'view_manager' => [
