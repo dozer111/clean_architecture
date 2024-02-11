@@ -11,31 +11,54 @@ use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
-return [
-    'router' => [
-        'routes' => [
-            'home' => [
-                'type'    => Literal::class,
-                'options' => [
-                    'route'    => '/',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
-                    ],
+
+$router = [
+    'routes' => [
+        'home' => [
+            'type' => 'Zend\Mvc\Router\Http\Literal',
+            'options' => [
+                'route' => '/',
+                'defaults' => [
+                    'controller' => 'Application\Controller\Index',
+                    'action' => 'index',
                 ],
             ],
-            'application' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/application[/:action]',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
-                    ],
+        ],
+        'customers' => [
+            'type' => 'Segment',
+            'options' => [
+                'route' => '/customers',
+                'defaults' => [
+                    'controller' => 'Application\Controller\Customers',
+                    'action' => 'index',
+                ],
+            ],
+        ],
+        'orders' => [
+            'type' => 'Segment',
+            'options' => [
+                'route' => '/orders',
+                'defaults' => [
+                    'controller' => 'Application\Controller\Orders',
+                    'action' => 'index',
+                ],
+            ],
+        ],
+        'invoices' => [
+            'type' => 'Segment',
+            'options' => [
+                'route' => '/invoices',
+                'defaults' => [
+                    'controller' => 'Application\Controller\Invoices',
+                    'action' => 'index',
                 ],
             ],
         ],
     ],
+];
+
+return [
+    'router' => $router,
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
