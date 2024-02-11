@@ -13,7 +13,7 @@ https://leanpub.com/cleanphp
 
 ---
 
-![img.png](img/img.png)
+![img.png](../img/img.png)
 
 - Клієнт має ряд замовлень
 - Кожне замовлення має рахунок на оплату
