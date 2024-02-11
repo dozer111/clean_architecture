@@ -14,7 +14,7 @@ class InvoiceFactory
         $invoice = new Invoice();
         $invoice->setOrder($order);
         $invoice->setInvoiceDate(new \DateTime());
-        $invoice->setTotal($order->getTotal() - 15);
+        $invoice->setTotal($order->getTotal());
 
         return $invoice;
     }
